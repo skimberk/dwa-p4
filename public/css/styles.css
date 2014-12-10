@@ -1,0 +1,23 @@
+html {
+	background: #efefef;
+}
+
+.message-entry {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #fff;
+	padding: 30px 0;
+	border-top: 1px solid #ddd;
+}
+
+.message-entry * {
+	margin-bottom: 0;
+}
+
+.message-entry textarea {
+	resize: none;
+	box-sizing: border-box;
+	width: 100%;
+}

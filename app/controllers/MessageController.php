@@ -9,21 +9,21 @@ class MessageController extends \BaseController {
 	 */
 	public function index()
 	{
-		header('Content-Type: text/event-stream');
-		header('Cache-Control: no-cache');
-		header('Connection: keep-alive');
+		// header('Content-Type: text/event-stream');
+		// header('Cache-Control: no-cache');
+		// header('Connection: keep-alive');
 
-		$redis = Redis::connection();
+		// $redis = Redis::connection();
 
-		while(true) {
-			echo 'Hey!';
-			$redis->publish('messages', 'test');
+		// while(true) {
+		// 	echo 'Hey!';
+		// 	$redis->publish('messages', 'test');
 
-			ob_flush();
-			flush();
+		// 	ob_flush();
+		// 	flush();
 
-			sleep(1);
-		}
+		// 	sleep(1);
+		// }
 	}
 
 
@@ -45,7 +45,13 @@ class MessageController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$message = Input::get('message');
+		echo $message;
+
+		if($message) {
+			$redis = Redis::connection();
+			$redis->publish('messages', $message);
+		}
 	}
 
 

@@ -13,6 +13,9 @@
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400,300,600">
 </head>
 <body>
+	<div class="messages container" id="messages">
+
+	</div>
 	<div class="message-entry">
 		<div class="container">
 			<div class="row">

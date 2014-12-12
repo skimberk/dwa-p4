@@ -14,3 +14,4 @@
 Route::get('/', 'HomeController@showHome');
 
 Route::resource('messages', 'MessageController');
+Route::resource('rooms', 'RoomController');

@@ -13,8 +13,15 @@
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400,300,600">
 </head>
 <body>
-	<div class="room-selection">
-		<div class="container"></div>
+	<div class="room-selection" id="room-selection">
+		<div class="container">
+			<label for="room-selection-dropdown">Select a room</label>
+			<select id="room-selection-dropdown">
+				<option>Loading...</option>
+			</select>
+			or
+			<a href="javascript:void(0)">Create a new room</a>
+		</div>
 	</div>
 	<div class="messages container" id="messages"></div>
 	<div class="message-entry" id="message-entry">

@@ -1,34 +1,22 @@
 <?php
 
-class MessageController extends \BaseController {
+class RoomController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
+	 * GET /room
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-		// header('Content-Type: text/event-stream');
-		// header('Cache-Control: no-cache');
-		// header('Connection: keep-alive');
-
-		// $redis = Redis::connection();
-
-		// while(true) {
-		// 	echo 'Hey!';
-		// 	$redis->publish('messages', 'test');
-
-		// 	ob_flush();
-		// 	flush();
-
-		// 	sleep(1);
-		// }
+		$rooms = Room::all();
+		return $rooms->toJson();
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
+	 * GET /room/create
 	 *
 	 * @return Response
 	 */
@@ -37,49 +25,34 @@ class MessageController extends \BaseController {
 		//
 	}
 
-
 	/**
 	 * Store a newly created resource in storage.
+	 * POST /room
 	 *
 	 * @return Response
 	 */
 	public function store()
 	{
-		$text = Input::get('text');
-		$room = Input::get('room');
-
-		if($text && $room) {
-			// $room = new Room;
-			// $room->name = "Another test room";
-			// $room->save();
-
-			$message = new Message;
-			$message->text = $text;
-			$message->room_id = $room;
-			$message->save();
-
-			$redis = Redis::connection();
-			$redis->publish('messages', $message->id);
-		}
+		//
 	}
-
 
 	/**
 	 * Display the specified resource.
+	 * GET /room/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function show($id)
 	{
-		$message = Message::find($id);
+		$room = Room::find($id);
 
-		return $message->toJson();
+		return $room->messages->toJson();
 	}
-
 
 	/**
 	 * Show the form for editing the specified resource.
+	 * GET /room/{id}/edit
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -89,9 +62,9 @@ class MessageController extends \BaseController {
 		//
 	}
 
-
 	/**
 	 * Update the specified resource in storage.
+	 * PUT /room/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -101,9 +74,9 @@ class MessageController extends \BaseController {
 		//
 	}
 
-
 	/**
 	 * Remove the specified resource from storage.
+	 * DELETE /room/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -112,6 +85,5 @@ class MessageController extends \BaseController {
 	{
 		//
 	}
-
 
 }

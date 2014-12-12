@@ -1,7 +1,7 @@
 #DWA Project 4
 
 ##Description
-A chat website.
+A real-time chat website with rooms.
 
 ##Live URL
 <http://p4.dwa.sebastian.io/>
@@ -13,4 +13,8 @@ A chat website.
 None (that I can think of).
 
 ##Outside code
--To be added later
+-<http://laravel.com/>
+-<http://nodejs.org/>
+-<http://necolas.github.io/normalize.css/>
+-<http://getskeleton.com/>
+-<http://expressjs.com/>

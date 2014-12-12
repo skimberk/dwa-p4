@@ -13,8 +13,8 @@ A real-time chat website with rooms.
 None (that I can think of).
 
 ##Outside code
--<http://laravel.com/>
--<http://nodejs.org/>
--<http://necolas.github.io/normalize.css/>
--<http://getskeleton.com/>
--<http://expressjs.com/>
+- <http://laravel.com/>
+- <http://nodejs.org/>
+- <http://necolas.github.io/normalize.css/>
+- <http://getskeleton.com/>
+- <http://expressjs.com/>

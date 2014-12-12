@@ -45,12 +45,20 @@ class MessageController extends \BaseController {
 	 */
 	public function store()
 	{
-		$message = Input::get('message');
-		echo $message;
+		$messageText = Input::get('message');
 
-		if($message) {
+		if($messageText) {
+			// $room = new Room;
+			// $room->name = "Test room";
+			// $room->save();
+
+			$message = new Message;
+			$message->text = $messageText;
+			$message->room_id = 1;
+			$message->save();
+
 			$redis = Redis::connection();
-			$redis->publish('messages', $message);
+			$redis->publish('messages', $message->id);
 		}
 	}
 
@@ -63,7 +71,9 @@ class MessageController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$message = Message::find($id);
+
+		return $message->toJson();
 	}
 
 

@@ -13,17 +13,18 @@
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400,300,600">
 </head>
 <body>
-	<div class="messages container" id="messages">
-
+	<div class="room-selection">
+		<div class="container"></div>
 	</div>
-	<div class="message-entry">
+	<div class="messages container" id="messages"></div>
+	<div class="message-entry" id="message-entry">
 		<div class="container">
 			<div class="row">
 				<form action="javascript:void(0)" id="message-entry-form">
-					<div class="ten columns">
+					<div class="nine columns">
 						<textarea placeholder="Enter message here." id="message-entry-field"></textarea>
 					</div>
-					<div class="two columns">
+					<div class="three columns">
 						<input type="submit" value="Send" class="button-primary">
 					</div>
 				</form>

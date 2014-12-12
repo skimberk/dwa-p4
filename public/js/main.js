@@ -1,9 +1,17 @@
 (function() {
 	'use strict';
 
+	var messageEntry = document.getElementById('message-entry');
 	var messageEntryForm = document.getElementById('message-entry-form');
 	var messageEntryField = document.getElementById('message-entry-field');
 	var messages = document.getElementById('messages');
+
+	var padMessages = function() {
+		messages.style.paddingBottom = messageEntry.offsetHeight + 'px';
+	};
+
+	padMessages();
+	window.addEventListener('resize', padMessages, false);
 
 	messageEntryForm.addEventListener('submit', function(e) {
 		e.preventDefault();
@@ -31,13 +39,34 @@
 		}
 	}, false);
 
+	var getMessage = function(id, callback) {
+		var request = new XMLHttpRequest();
+		request.open('GET', '/messages/' + id);
+		request.onload = function() {
+			callback(JSON.parse(request.responseText));
+		};
+		request.send();
+	};
+
 	if(!!window.EventSource) {
 		var source = new EventSource(location.protocol + '//' + location.hostname + ':6789');
 
 		source.addEventListener('message', function(e) {
-		  var data = JSON.parse(e.data);
+			var data = JSON.parse(e.data);
 
-		  messages.innerHTML += '<div class="row">' + data + '</div>';
+			getMessage(data, function(message) {
+				var atBottom = false;
+
+				if((window.pageYOffset || document.documentElement.scrollTop) + window.innerHeight >= document.body.scrollHeight - 10) {
+					atBottom = true;
+				}
+
+				messages.innerHTML += '<div class="row">' + message.text + '</div>';
+
+				if(atBottom) {
+					window.scrollTo(0, document.body.scrollHeight);
+				}
+			});
 		}, false);
 	}
 }).call(this);

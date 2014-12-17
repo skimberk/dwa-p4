@@ -59,7 +59,7 @@ class MessageController extends \BaseController {
 			$message->save();
 
 			$redis = Redis::connection();
-			$redis->publish('messages', $message->id);
+			$redis->publish('updates', $message->id);
 		}
 	}
 

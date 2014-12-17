@@ -20,7 +20,9 @@
 				<option>Loading...</option>
 			</select>
 			or
-			<a href="javascript:void(0)">Create a new room</a>
+			<a href="javascript:void(0)" id="room-create-button">Create a new room</a>
+			<a href="javascript:void(0)" id="room-rename-button">Rename room</a>
+			<a href="javascript:void(0)" id="room-delete-button">Delete room</a>
 		</div>
 	</div>
 	<div class="messages container" id="messages"></div>

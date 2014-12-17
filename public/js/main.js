@@ -3,6 +3,9 @@
 
 	var roomSelection = document.getElementById('room-selection');
 	var roomSelectionDropdown = document.getElementById('room-selection-dropdown');
+	var roomCreateButton = document.getElementById('room-create-button');
+	var roomRenameButton = document.getElementById('room-rename-button');
+	var roomDeleteButton = document.getElementById('room-delete-button');
 
 	var messageEntry = document.getElementById('message-entry');
 	var messageEntryForm = document.getElementById('message-entry-form');
@@ -37,17 +40,20 @@
 		}
 	};
 
-	var getRoomWithId = function(id) {
+	var getPositionOfRoomWithId = function(id) {
 		for(var i = 0, len = availableRooms.length; i < len; ++i) {
-			var room = availableRooms[i];
-
-			if(room.id === id) {
-				return room;
+			if(availableRooms[i].id === id) {
+				return i;
 			}
 		}
+
+		return -1;
 	};
 
 	var roomChangeHandler = function(room) {
+		var roomPosition = getPositionOfRoomWithId(room.id);
+
+		roomSelectionDropdown.children[roomPosition].selected = true;
 		activeRoom = room.id;
 		messages.innerHTML = '';
 
@@ -61,6 +67,26 @@
 			}
 		};
 		request.send();
+	};
+
+	var hashChangeHandler = function() {
+		var newRoom = parseInt(location.hash.substring(6), 10);
+		var newRoomPosition = getPositionOfRoomWithId(newRoom);
+
+		if(newRoomPosition === -1 && availableRooms[0]) {
+			location.hash = '#room=' + parseInt(availableRooms[0].id, 10);
+		}
+		else if(newRoomPosition !== -1 && newRoom !== activeRoom && availableRooms[0]) {
+			roomChangeHandler(availableRooms[newRoomPosition]);
+		}
+		else {
+			messages.innerHTML = '';
+			activeRoom = -1;
+
+			if(newRoom !== -1) {
+				location.hash = '#room=-1';
+			}
+		}
 	};
 
 	var availableRoomsChangeHandler = function(rooms) {
@@ -85,10 +111,7 @@
 		}
 
 		if(!activeRoomStillExists) {
-			activeRoom = rooms[0].id;
-			roomSelectionDropdown.children[0].selected = true;
-
-			roomChangeHandler(rooms[0]);
+			hashChangeHandler();
 		}
 	};
 
@@ -105,7 +128,65 @@
 
 	roomSelectionDropdown.addEventListener('change', function(e) {
 		if(e.target.value) {
-			roomChangeHandler(getRoomWithId(parseInt(e.target.value, 10)));
+			location.hash = '#room=' + parseInt(e.target.value, 10);
+		}
+	}, false);
+
+	window.addEventListener('hashchange', hashChangeHandler, false);
+
+	roomCreateButton.addEventListener('click', function(e) {
+		e.preventDefault();
+
+		var name = prompt('Enter the name of the new room:');
+
+		if(name) {
+			var request = new XMLHttpRequest();
+			request.open('POST', '/rooms/');
+			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			request.onload = function() {
+				// Done
+			};
+			request.send('name=' + encodeURIComponent(name));
+		}
+	}, false);
+
+	roomRenameButton.addEventListener('click', function(e) {
+		e.preventDefault();
+
+		if(activeRoom === -1) {
+			alert('Create a room first!');
+			return;
+		}
+
+		var name = prompt('Enter the new name:');
+
+		if(name) {
+			var request = new XMLHttpRequest();
+			request.open('PUT', '/rooms/' + activeRoom);
+			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			request.onload = function() {
+				// Done
+			};
+			request.send('name=' + encodeURIComponent(name));
+		}
+	}, false);
+
+	roomDeleteButton.addEventListener('click', function(e) {
+		e.preventDefault();
+
+		if(activeRoom === -1) {
+			alert('Create a room first!');
+			return;
+		}
+
+		if(confirm('Are you sure you want to delete this room?')) {
+			var request = new XMLHttpRequest();
+			request.open('DELETE', '/rooms/' + activeRoom);
+			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			request.onload = function() {
+				// Done
+			};
+			request.send();
 		}
 	}, false);
 
@@ -123,7 +204,7 @@
 			request.onload = function(e) {
 				// Message sent
 			};
-			request.send('text=' + value + '&room=' + activeRoom);
+			request.send('text=' + encodeURIComponent(value) + '&room=' + encodeURIComponent(activeRoom));
 		}
 	}, false);
 
@@ -151,9 +232,16 @@
 		source.addEventListener('message', function(e) {
 			var data = JSON.parse(e.data);
 
-			getMessage(data, function(message) {
-				addMessage(message);
-			});
+			if(data === 'rooms-changed') {
+				getRooms();
+			}
+			else {
+				getMessage(data, function(message) {
+					if(message.room_id == activeRoom) {
+						addMessage(message);
+					}
+				});
+			}
 		}, false);
 	}
 }).call(this);

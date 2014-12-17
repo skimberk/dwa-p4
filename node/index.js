@@ -15,7 +15,7 @@ client.on('message', function(channel, message) {
 	}
 });
 
-client.subscribe('messages');
+client.subscribe('updates');
 
 app.get('/', function(req, res) {
 	// set timeout as high as possible

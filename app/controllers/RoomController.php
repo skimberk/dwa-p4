@@ -33,7 +33,16 @@ class RoomController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$name = Input::get('name');
+
+		if($name) {
+			$room = new Room;
+			$room->name = $name;
+			$room->save();
+
+			$redis = Redis::connection();
+			$redis->publish('updates', 'rooms-changed');
+		}
 	}
 
 	/**
@@ -71,7 +80,16 @@ class RoomController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$name = Input::get('name');
+
+		if($name) {
+			$room = Room::find($id);
+			$room->name = $name;
+			$room->save();
+
+			$redis = Redis::connection();
+			$redis->publish('updates', 'rooms-changed');
+		}
 	}
 
 	/**
@@ -83,7 +101,11 @@ class RoomController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$room = Room::find($id);
+		$room->delete();
+
+		$redis = Redis::connection();
+		$redis->publish('updates', 'rooms-changed');
 	}
 
 }

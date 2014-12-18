@@ -44,7 +44,7 @@
 		var id = parseInt(id, 10);
 
 		for(var i = 0, len = availableRooms.length; i < len; ++i) {
-			if(parseInt(availableRooms[i].id, 10) === id)) {
+			if(parseInt(availableRooms[i].id, 10) === id) {
 				return i;
 			}
 		}

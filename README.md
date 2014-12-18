@@ -7,7 +7,7 @@ A real-time chat website with rooms. All changes are pushed to everyone viewing 
 <http://p4.dwa.sebastian.io/>
 
 ##Demo
--To be added later
+<http://screencast.com/t/8HyVWc8yo8W>
 
 ##Details for teaching team
 My project, while using primarily Laravel and MySQL, also uses several other technologies. It uses NodeJS for pushing realtime updates to users, and Redis in order to enable pub/sub style communication between Laravel and NodeJS.
@@ -22,3 +22,4 @@ Also, not all browsers have implemented the protocol the same way, and while the
 - <http://necolas.github.io/normalize.css/>
 - <http://getskeleton.com/>
 - <http://expressjs.com/>
+- <http://redis.io/>

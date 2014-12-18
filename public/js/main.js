@@ -117,7 +117,7 @@
 
 	var getRooms = function() {
 		var request = new XMLHttpRequest();
-		request.open('GET', '/rooms/');
+		request.open('GET', '/rooms');
 		request.onload = function() {
 			availableRoomsChangeHandler(JSON.parse(request.responseText));
 		};
@@ -141,7 +141,7 @@
 
 		if(name) {
 			var request = new XMLHttpRequest();
-			request.open('POST', '/rooms/');
+			request.open('POST', '/rooms');
 			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 			request.onload = function() {
 				// Done
